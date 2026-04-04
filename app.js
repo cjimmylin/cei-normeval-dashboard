@@ -47,6 +47,9 @@ function setupTabListeners() {
       } else if (target === '#tab-data' && !rendered.data) {
         rendered.data = true;
         setTimeout(renderDataCharts, 50);
+      } else if (target === '#tab-crossmodel' && !rendered.crossmodel) {
+        rendered.crossmodel = true;
+        setTimeout(renderCrossModelCharts, 50);
       } else if (target === '#tab-gaps' && !rendered.gaps) {
         rendered.gaps = true;
         setTimeout(renderGapsCharts, 50);
@@ -510,11 +513,97 @@ function renderTrialsTable() {
 }
 
 // ============================================================
-// Tab 8: Cross-Model Placeholder
+// Tab 8: Cross-Model Comparison
 // ============================================================
 function renderCrossModelTab() {
   var cm = DATA_CROSS_MODEL;
-  setText(document.getElementById('baseline-accuracy'), cm.baseline.avg_accuracy + '%');
+  if (cm.status !== 'complete') return;
+
+  // KPI cards
+  var kpiContainer = document.getElementById('cm-kpi-cards');
+  if (!kpiContainer) return;
+  kpiContainer.textContent = '';
+  var kpis = [
+    { value: String(cm.trials_completed), label: 'Trials Replicated', color: 'green' },
+    { value: String(cm.total_items), label: 'Items Compared', color: 'blue' },
+    { value: String(cm.models.length), label: 'Model Tiers', color: 'purple' },
+    { value: cm.agreement_matrix.all_three.agreement_percent + '%', label: 'Three-Way Agreement', color: 'cyan' },
+  ];
+  kpis.forEach(function(k) {
+    var col = createEl('div', { className: 'col-6 col-md-3' });
+    var card = createEl('div', { className: 'metric-card' });
+    card.appendChild(createEl('div', { className: 'metric-value ' + k.color }, k.value));
+    card.appendChild(createEl('div', { className: 'metric-label' }, k.label));
+    col.appendChild(card);
+    kpiContainer.appendChild(col);
+  });
+
+  // Findings cards
+  var findingsContainer = document.getElementById('cm-findings-list');
+  if (findingsContainer && cm.findings) {
+    findingsContainer.textContent = '';
+    cm.findings.forEach(function(f) {
+      var card = createEl('div', { className: 'claim-card', style: 'margin-bottom:0.75rem;' });
+      var header = createEl('div', { style: 'display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;' });
+      header.appendChild(createEl('strong', { style: 'font-size:0.85rem;' }, f.id + ': ' + f.title));
+      card.appendChild(header);
+      card.appendChild(createEl('p', { style: 'font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.3rem;' }, f.evidence));
+      card.appendChild(createEl('p', { style: 'font-size:0.78rem;color:var(--text-muted);' }, f.interpretation));
+      findingsContainer.appendChild(card);
+    });
+  }
+
+  // Agreement matrix table
+  var agContainer = document.getElementById('cm-agreement-table');
+  if (agContainer && cm.agreement_matrix) {
+    agContainer.textContent = '';
+    var am = cm.agreement_matrix;
+    var tbl = createEl('table', { className: 'papers-table', style: 'font-size:0.82rem;' });
+    var thead = createEl('thead');
+    var htr = createEl('tr');
+    ['Pair', 'Agreement'].forEach(function(h) { htr.appendChild(createEl('th', {}, h)); });
+    thead.appendChild(htr);
+    tbl.appendChild(thead);
+    var tbody = createEl('tbody');
+    [
+      ['Opus \u2194 Sonnet', am.opus_sonnet.agreement_percent + '%'],
+      ['Sonnet \u2194 Haiku', am.sonnet_haiku.agreement_percent + '%'],
+      ['Opus \u2194 Haiku', am.opus_haiku.agreement_percent + '%'],
+      ['All Three', am.all_three.agreement_percent + '%'],
+    ].forEach(function(row) {
+      var tr = createEl('tr');
+      tr.appendChild(createEl('td', { style: 'font-weight:500;' }, row[0]));
+      var color = parseFloat(row[1]) >= 80 ? 'var(--accent-green)' : parseFloat(row[1]) >= 70 ? 'var(--accent-orange)' : 'var(--accent-red)';
+      tr.appendChild(createEl('td', { style: 'font-family:var(--font-mono);font-weight:700;color:' + color + ';' }, row[1]));
+      tbody.appendChild(tr);
+    });
+    tbl.appendChild(tbody);
+    agContainer.appendChild(tbl);
+  }
+
+  // Per-trial summary table
+  var ptContainer = document.getElementById('cm-per-trial-table');
+  if (ptContainer && cm.per_trial) {
+    ptContainer.textContent = '';
+    var tbl = createEl('table', { className: 'papers-table', style: 'font-size:0.78rem;' });
+    var thead = createEl('thead');
+    var htr = createEl('tr');
+    ['Trial', 'Benchmark', 'Items', 'Finding'].forEach(function(h) { htr.appendChild(createEl('th', {}, h)); });
+    thead.appendChild(htr);
+    tbl.appendChild(thead);
+    var tbody = createEl('tbody');
+    Object.keys(cm.per_trial).forEach(function(key) {
+      var t = cm.per_trial[key];
+      var tr = createEl('tr');
+      tr.appendChild(createEl('td', { style: 'font-weight:600;' }, key));
+      tr.appendChild(createEl('td', {}, t.benchmark));
+      tr.appendChild(createEl('td', { style: 'font-family:var(--font-mono);' }, String(t.items)));
+      tr.appendChild(createEl('td', { style: 'font-size:0.72rem;color:var(--text-secondary);' }, t.finding));
+      tbody.appendChild(tr);
+    });
+    tbl.appendChild(tbody);
+    ptContainer.appendChild(tbl);
+  }
 }
 
 // ============================================================

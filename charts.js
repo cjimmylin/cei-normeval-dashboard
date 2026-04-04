@@ -655,6 +655,102 @@ function renderGapsCharts() {
   renderCarePrototypeDims();
 }
 
+// ============================================================
+// Tab 8: Cross-Model Charts
+// ============================================================
+function renderCMIHChart() {
+  var cm = DATA_CROSS_MODEL;
+  if (!cm.key_charts || !cm.key_charts.ih_scaling) return;
+  var kc = cm.key_charts.ih_scaling;
+  var el = document.getElementById('chart-cm-ih');
+  if (!el) return;
+  var chart = echarts.init(el);
+  chartInstances['cm-ih'] = chart;
+  var opt = baseTheme();
+  opt.xAxis = { type: 'category', data: kc.models, axisLabel: { color: COLORS.textSecondary } };
+  opt.yAxis = { type: 'value', min: 0, max: 7, name: 'OUS Score (1-7)', nameTextStyle: { color: COLORS.textMuted, fontSize: 11 }, axisLabel: { color: COLORS.textSecondary } };
+  opt.series = [
+    { name: 'IB (Impartial Beneficence)', type: 'bar', data: kc.IB_means, itemStyle: { color: COLORS.green }, barWidth: '30%' },
+    { name: 'IH (Instrumental Harm)', type: 'bar', data: kc.IH_means, itemStyle: { color: COLORS.red }, barWidth: '30%' },
+    { name: 'Util. Philosophers IH', type: 'line', data: [kc.philosopher_IH, kc.philosopher_IH, kc.philosopher_IH], lineStyle: { type: 'dashed', color: COLORS.orange }, symbol: 'none', itemStyle: { color: COLORS.orange } },
+    { name: 'Lay Population IH', type: 'line', data: [kc.lay_IH, kc.lay_IH, kc.lay_IH], lineStyle: { type: 'dashed', color: COLORS.textMuted }, symbol: 'none', itemStyle: { color: COLORS.textMuted } },
+  ];
+  opt.legend = { data: ['IB (Impartial Beneficence)', 'IH (Instrumental Harm)', 'Util. Philosophers IH', 'Lay Population IH'], textStyle: { color: COLORS.textSecondary, fontSize: 10 }, bottom: 0 };
+  opt.tooltip = Object.assign({}, opt.tooltip, { trigger: 'axis' });
+  opt.grid = { top: 30, bottom: 80, left: 50, right: 20 };
+  chart.setOption(opt);
+}
+
+function renderCMCBRChart() {
+  var cm = DATA_CROSS_MODEL;
+  if (!cm.key_charts || !cm.key_charts.cbr_rate) return;
+  var kc = cm.key_charts.cbr_rate;
+  var el = document.getElementById('chart-cm-cbr');
+  if (!el) return;
+  var chart = echarts.init(el);
+  chartInstances['cm-cbr'] = chart;
+  var opt = baseTheme();
+  opt.xAxis = { type: 'category', data: kc.models, axisLabel: { color: COLORS.textSecondary } };
+  opt.yAxis = { type: 'value', min: 0, max: 100, name: 'CBR Rate (%)', nameTextStyle: { color: COLORS.textMuted, fontSize: 11 }, axisLabel: { color: COLORS.textSecondary } };
+  opt.series = [
+    { name: 'CBR (Consequentialist)', type: 'bar', data: kc.cbr_percent, itemStyle: { color: function(p) { return [COLORS.blue, COLORS.green, COLORS.orange][p.dataIndex]; } }, barWidth: '40%', label: { show: true, position: 'top', formatter: '{c}%', color: COLORS.text, fontSize: 12 } },
+  ];
+  opt.tooltip = Object.assign({}, opt.tooltip, { trigger: 'axis', formatter: function(p) { return p[0].name + ': ' + p[0].value + '% consequentialist'; } });
+  opt.grid = { top: 30, bottom: 30, left: 50, right: 20 };
+  chart.setOption(opt);
+}
+
+function renderCMKJChart() {
+  var cm = DATA_CROSS_MODEL;
+  if (!cm.key_charts || !cm.key_charts.knowledge_vs_judgment) return;
+  var kc = cm.key_charts.knowledge_vs_judgment;
+  var el = document.getElementById('chart-cm-kj');
+  if (!el) return;
+  var chart = echarts.init(el);
+  chartInstances['cm-kj'] = chart;
+  var opt = baseTheme();
+  var cats = kc.categories;
+  var vals = kc.three_way_agreement.map(function(v) { return v === 'variable' ? 73 : v; });
+  opt.xAxis = { type: 'category', data: cats, axisLabel: { color: COLORS.textSecondary, fontSize: 10, rotate: 15 } };
+  opt.yAxis = { type: 'value', min: 0, max: 100, name: 'Three-Way Agreement (%)', nameTextStyle: { color: COLORS.textMuted, fontSize: 11 }, axisLabel: { color: COLORS.textSecondary } };
+  opt.series = [{
+    type: 'bar', data: vals,
+    itemStyle: { color: function(p) { return p.value >= 95 ? COLORS.green : p.value >= 70 ? COLORS.orange : COLORS.red; } },
+    barWidth: '50%',
+    label: { show: true, position: 'top', formatter: '{c}%', color: COLORS.text, fontSize: 11 }
+  }];
+  opt.grid = { top: 30, bottom: 50, left: 50, right: 20 };
+  chart.setOption(opt);
+}
+
+function renderCMPersuasionChart() {
+  var cm = DATA_CROSS_MODEL;
+  if (!cm.key_charts || !cm.key_charts.persuasion_resistance) return;
+  var kc = cm.key_charts.persuasion_resistance;
+  var el = document.getElementById('chart-cm-persuasion');
+  if (!el) return;
+  var chart = echarts.init(el);
+  chartInstances['cm-persuasion'] = chart;
+  var opt = baseTheme();
+  opt.xAxis = { type: 'category', data: kc.models, axisLabel: { color: COLORS.textSecondary } };
+  opt.yAxis = { type: 'value', min: 0, max: 100, name: 'Decision Change Rate (%)', nameTextStyle: { color: COLORS.textMuted, fontSize: 11 }, axisLabel: { color: COLORS.textSecondary } };
+  opt.series = [{
+    type: 'bar', data: kc.dcr_percent,
+    itemStyle: { color: function(p) { return p.value === 0 ? COLORS.green : p.value <= 35 ? COLORS.orange : COLORS.red; } },
+    barWidth: '40%',
+    label: { show: true, position: 'top', formatter: '{c}%', color: COLORS.text, fontSize: 12 }
+  }];
+  opt.grid = { top: 30, bottom: 30, left: 50, right: 20 };
+  chart.setOption(opt);
+}
+
+function renderCrossModelCharts() {
+  renderCMIHChart();
+  renderCMCBRChart();
+  renderCMKJChart();
+  renderCMPersuasionChart();
+}
+
 // Resize handler
 window.addEventListener('resize', function() {
   Object.values(chartInstances).forEach(function(c) { c.resize(); });

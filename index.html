@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NormEval Dashboard — What Do Normative Ethics Benchmarks Actually Test?</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<header class="dashboard-header">
+  <h1>NormEval Dashboard</h1>
+  <p class="subtitle">What Do Normative Ethics Benchmarks Actually Test? &mdash; 37 benchmarks, 46 features (26 v1 + 20 v2), 15 trials</p>
+</header>
+
+<!-- Navigation Tabs -->
+<ul class="nav nav-tabs" id="mainTabs" role="tablist">
+  <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-overview" role="tab">Overview</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-papers" role="tab">All Papers</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-features" role="tab">Feature Matrix</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-traditions" role="tab">Tradition Coverage</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-composite" role="tab">Composite Scoring</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-trials" role="tab">Trials</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-data" role="tab">Data Availability</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-crossmodel" role="tab">Cross-Model</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-gaps" role="tab">Gaps</a></li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content" id="mainTabContent">
+
+  <!-- ====== Tab 1: Overview ====== -->
+  <div class="tab-pane fade show active" id="tab-overview" role="tabpanel">
+    <div class="tab-explainer">
+      This dashboard presents the NormEval analysis of 37 normative ethics benchmarks for LLMs across 26 features.
+      Five claims about the state of ethics evaluation are tested with statistical evidence.
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="row g-3 mb-4" id="kpi-cards"></div>
+
+    <!-- v2 Feature Highlights -->
+    <div class="row g-3 mb-3" id="v2-highlights-row"></div>
+
+    <!-- Claims + Donut -->
+    <div class="row g-3">
+      <div class="col-lg-5">
+        <div class="chart-container">
+          <h3>Gate Pass/Fail Breakdown</h3>
+          <div id="chart-gates-donut" class="echarts-box-sm"></div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="chart-container">
+          <h3>Five Claims</h3>
+          <div id="claims-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tradition Frequency Bar -->
+    <div class="chart-container">
+      <h3>Tradition Frequency (benchmarks with score >= 50)</h3>
+      <div id="chart-tradition-freq" class="echarts-box-sm"></div>
+    </div>
+  </div>
+
+  <!-- ====== Tab 2: All Papers ====== -->
+  <div class="tab-pane fade" id="tab-papers" role="tabpanel">
+    <div class="tab-explainer">
+      Complete ranking of all 37 benchmarks by composite score (ND 40% + PE 35% + CI 25%).
+      Green rows pass both gates; red rows fail. Click any row to expand its full profile.
+    </div>
+
+    <div class="papers-toolbar">
+      <input type="text" id="paper-search" placeholder="Search benchmarks...">
+      <select id="filter-gate">
+        <option value="all">All Gates</option>
+        <option value="pass">Pass Only</option>
+        <option value="fail">Fail Only</option>
+      </select>
+      <select id="filter-tradition">
+        <option value="all">All Traditions</option>
+        <option value="virtue">Virtue</option>
+        <option value="deontological">Deontological</option>
+        <option value="utilitarian">Utilitarian</option>
+        <option value="care">Care</option>
+        <option value="contractarian">Contractarian</option>
+      </select>
+      <select id="filter-year">
+        <option value="all">All Years</option>
+      </select>
+      <button class="btn-export" id="btn-export-csv">Export CSV</button>
+    </div>
+
+    <div class="papers-table-wrap">
+      <table class="papers-table" id="papers-table">
+        <thead>
+          <tr>
+            <th data-sort="rank">#</th>
+            <th data-sort="short_title">Benchmark</th>
+            <th data-sort="year">Year</th>
+            <th data-sort="nd">ND</th>
+            <th data-sort="pe">PE</th>
+            <th data-sort="ci">CI</th>
+            <th data-sort="composite">Composite</th>
+            <th data-sort="passes_gates">Gate</th>
+            <th>Traditions</th>
+            <th data-sort="size">Size</th>
+            <th data-sort="format">Format</th>
+            <th data-sort="a6">A6</th>
+          </tr>
+        </thead>
+        <tbody id="papers-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== Tab 3: Feature Matrix ====== -->
+  <div class="tab-pane fade" id="tab-features" role="tabpanel">
+    <div class="tab-explainer">
+      Interactive heatmap showing 37 benchmarks across key features. Colors indicate the scoring axis:
+      blue = Normative Depth, green = Practical Ecosystem, orange = Community Impact.
+    </div>
+    <div class="chart-container">
+      <h3>Feature Heatmap (ranked by composite)</h3>
+      <div id="chart-feature-heatmap" class="echarts-box-lg"></div>
+    </div>
+  </div>
+
+  <!-- ====== Tab 4: Tradition Coverage ====== -->
+  <div class="tab-pane fade" id="tab-traditions" role="tabpanel">
+    <div class="tab-explainer">
+      Tradition coverage reveals a stark imbalance: utilitarian and deontological frameworks dominate,
+      while care ethics (2 benchmarks) and contractarianism (1 benchmark) are near-absent.
+    </div>
+    <div class="row g-3">
+      <div class="col-lg-7">
+        <div class="chart-container">
+          <h3>Tradition Heatmap (37 benchmarks x 5 traditions)</h3>
+          <div id="chart-tradition-heatmap" class="echarts-box-lg"></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="chart-container">
+          <h3>Tradition Engagement (count >= 50)</h3>
+          <div id="chart-tradition-bar" class="echarts-box-sm"></div>
+        </div>
+        <div class="chart-container">
+          <h3>Shannon Entropy per Benchmark</h3>
+          <div id="chart-entropy" class="echarts-box-sm"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Tab 5: Composite Scoring ====== -->
+  <div class="tab-pane fade" id="tab-composite" role="tabpanel">
+    <div class="tab-explainer">
+      Composite score = ND (40%) + PE (35%) + CI (25%). Sensitivity analysis across 231 weight triplets
+      shows gates determine the Top 15, not weight choices. All 15 passing benchmarks are stable across every tested configuration.
+    </div>
+    <div class="row g-3">
+      <div class="col-lg-7">
+        <div class="chart-container">
+          <h3>ND vs PE Scatter (bubble size = CI)</h3>
+          <div id="chart-nd-pe-scatter" class="echarts-box"></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="chart-container">
+          <h3>Sensitivity: Gate Threshold Impact</h3>
+          <div id="chart-gate-sensitivity" class="echarts-box-sm"></div>
+        </div>
+        <div class="chart-container" style="padding: 1.25rem;">
+          <h3>Key Insight</h3>
+          <div class="claim-card" style="border-left: 3px solid var(--accent-green);">
+            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">
+              <strong>Gates determine Top 15, not weights.</strong>
+            </p>
+            <p style="font-size: 0.8rem; color: var(--text-secondary);">
+              All 15 gate-passing benchmarks appear in the Top 15 across all 231 weight triplets tested.
+              Zero borderline cases. The dual-gate mechanism (ND >= 40, data available) is the binding constraint.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Tab 6: Trials ====== -->
+  <div class="tab-pane fade" id="tab-trials" role="tabpanel">
+    <div class="tab-explainer">
+      Implementation trials T1-T15 tested Claude Opus 4.6 on items from each benchmark.
+      Accuracy ranged from 72% to 100%, revealing a U > V > D difficulty hierarchy among frameworks.
+    </div>
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="chart-container">
+          <h3>Trial Accuracy &amp; Discriminative Power</h3>
+          <div id="chart-trials-bar" class="echarts-box"></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="chart-container">
+          <h3>Framework Difficulty</h3>
+          <div id="chart-difficulty-pie" class="echarts-box-sm"></div>
+        </div>
+        <div class="chart-container">
+          <h3>Trial Summary</h3>
+          <div id="trial-summary-stats"></div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-container">
+      <h3>Trial Details</h3>
+      <div class="papers-table-wrap">
+        <table class="papers-table" id="trials-detail-table">
+          <thead>
+            <tr>
+              <th>Trial</th>
+              <th>Benchmark</th>
+              <th>Accuracy</th>
+              <th>Items</th>
+              <th>Difficulty</th>
+              <th>Discriminative</th>
+              <th>Refusal %</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="trials-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Tab 7: Data Availability ====== -->
+  <div class="tab-pane fade" id="tab-data" role="tabpanel">
+    <div class="tab-explainer">
+      Data availability is a hard gate: benchmarks without public datasets fail regardless of normative depth.
+      14 of 37 benchmarks have unavailable data, concentrated in pre-2024 conference papers.
+    </div>
+    <div class="row g-3">
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Host Distribution</h3>
+          <div id="chart-host-bar" class="echarts-box-sm"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>License Distribution</h3>
+          <div id="chart-license-pie" class="echarts-box-sm"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Tab 8: Cross-Model ====== -->
+  <div class="tab-pane fade" id="tab-crossmodel" role="tabpanel">
+    <div class="placeholder-msg">
+      <h3>Cross-Model Replication Pending</h3>
+      <p>Requires GPT-4o, Llama-3, and DeepSeek API keys for multi-model comparison.</p>
+      <div class="mt-4">
+        <div class="metric-card d-inline-block" style="max-width: 300px;">
+          <div class="metric-value cyan" id="baseline-accuracy"></div>
+          <div class="metric-label">Claude Opus 4.6 Baseline (15 trials avg)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Tab 9: Gaps & Recommendations ====== -->
+  <div class="tab-pane fade" id="tab-gaps" role="tabpanel">
+    <div class="tab-explainer">
+      Critical gaps include near-zero coverage of care ethics and contractarianism. Vault mining identified
+      12 new candidates; external search found 5 papers to add. Six peer review concerns are tracked.
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Tradition Voids</h3>
+          <div id="chart-void-bar" class="echarts-box-sm"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Peer Review Concerns</h3>
+          <div id="peer-review-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Care Ethics Prototype -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-7">
+        <div class="chart-container">
+          <h3>Care Ethics Prototype: Proof of Concept</h3>
+          <div id="care-prototype-card"></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="chart-container">
+          <h3>Tronto Dimensions: Competence Gap</h3>
+          <div id="chart-care-dims" class="echarts-box-sm"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Vault Mining Candidates (12 INCLUDE)</h3>
+          <div id="mining-list"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>External Search: ADD_TO_VAULT (5)</h3>
+          <div id="external-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-content -->
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script src="data.js"></script>
+<script src="charts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -478,44 +478,51 @@ const DATA_CROSS_VENDOR = {
     {
       "id": "F1",
       "title": "Three Ethical Profiles",
-      "subtitle": "Conservative (GPT-5) -> Moderate (Sonnet) -> Permissive (Haiku/Gemini) gradient across vendors",
-      "badge": "Cross-Vendor"
+      "subtitle": "Conservative (GPT-5) \u2192 Moderate (Sonnet) \u2192 Permissive (Haiku/Gemini) gradient across vendors",
+      "badge": "Cross-Vendor",
+      "detail": "The 9 tested models collapse into three distinct ethical profiles based on their responses to harm-tradeoff items (T13 IH and T14 CBR). The Conservative profile (GPT-5, IH=2.93; Opus, IH=3.0) refuses instrumental harm even when aggregate benefit is clear. The Moderate profile (Sonnet, IH=3.2; GPT-5-mini, IH=3.2) aligns with the lay population norm. The Permissive profile (Haiku, IH=4.47; all Gemini, IH=4.47) approaches the utilitarian philosopher norm (4.5). Critically, these profiles cut across vendor lines \u2014 Sonnet (Anthropic) clusters with GPT-5-mini (OpenAI), not with Haiku (Anthropic). This suggests alignment training intensity, not organizational origin, determines ethical posture. The three-profile structure accounts for 74.3% of discriminating items across the battery."
     },
     {
       "id": "F2",
       "title": "Gemini Identity",
       "subtitle": "All 4 Google models produce identical responses on 114/114 items",
-      "badge": "Anomaly"
+      "badge": "Anomaly",
+      "detail": "Gemini 2.5 Flash, 2.5 Flash Lite, 2.5 Pro, and 3.1 Pro produce byte-identical responses on every one of 114 ethics items spanning medical ethics MCQs, Kohlberg rankings, Likert-scale utilitarian endorsements, and persuasion scenarios. The probability of four independent models agreeing on all 114 items by chance is approximately 10\u207b\u00b9\u2070\u00b3, effectively falsifying the independent-inference hypothesis. Three plausible explanations remain: (1) shared routing infrastructure directing all models to the same backend, (2) a unified alignment/safety layer applied post-inference, or (3) deterministic temperature=0 decoding with identical training. A temperature sensitivity test (running Gemini at non-zero temperature) would disambiguate explanations 1-2 from explanation 3. Additionally, Haiku produces responses identical to all Gemini models, suggesting lighter-alignment models may converge to a shared permissive posture."
     },
     {
       "id": "F3",
       "title": "Universal Knowledge Ceiling",
       "subtitle": "8/8 models score 100% on factual ethics (T6/T9/T11/T15)",
-      "badge": "Ceiling"
+      "badge": "Ceiling",
+      "detail": "All 8 structured models achieve perfect scores on four knowledge-based benchmarks: PrinciplismQA (T6, medical ethics), JETHICS (T9, Japanese commonsense morality), MedEthicsQA (T11, clinical ethics), and ProMoralBench (T15, moral identification). This ceiling is universal across all three vendors and all capability tiers \u2014 even the smallest models (Haiku, Gemini Flash Lite) saturate these benchmarks. The finding confirms Claim C1 (ceiling effect) at the cross-vendor level and demonstrates that ethical knowledge is deeply encoded in all frontier LLMs regardless of vendor or size. It also means these benchmarks can no longer discriminate between models and should be treated as prerequisites rather than evaluation instruments."
     },
     {
       "id": "F4",
       "title": "Knowledge-Judgment Divergence",
-      "subtitle": "100% agreement on knowledge vs 57-100% on judgment across vendors",
-      "badge": "Construct"
+      "subtitle": "100% agreement on knowledge vs 57\u2013100% on judgment across vendors",
+      "badge": "Construct",
+      "detail": "The most construct-valid finding in the analysis: items that test what models know about ethics (knowledge) show universal ceiling agreement, while items that test how models weigh competing values (judgment) show sharp divergence. On judgment benchmarks, pairwise agreement ranges from 30% (T13 Greatest Good, min pair) to 100% (several pairs on T12 UniMoral). This follows a construct boundary, not a difficulty boundary \u2014 T9 JETHICS has 22 items (more than any single judgment benchmark) yet achieves ceiling, while T13 OUS has 30 items and shows massive variance. Knowledge items engage deliberative reasoning that all capable models saturate; judgment items engage a \u2018moral intuition\u2019 analogue where RLHF training imposes vendor-specific priors. The council unanimously (12/12) agreed this is a genuine construct-level finding that validates the NormEval paper\u2019s central claim."
     },
     {
       "id": "F5",
       "title": "GPT-5 Most Conservative",
-      "subtitle": "IH=2.93 below even Opus (3.0) — strongest deontological constraints",
-      "badge": "OpenAI"
+      "subtitle": "IH=2.93 below even Opus (3.0) \u2014 strongest deontological constraints",
+      "badge": "OpenAI",
+      "detail": "GPT-5 (tested via Codex agent\u2020) exhibits the lowest Instrumental Harm acceptance of any model tested (IH=2.93), falling below even Opus (3.0) and well below the lay population norm (3.1). Simultaneously, GPT-5 has the highest Impartial Beneficence score (IB=5.13) \u2014 the strongest endorsement of positive duties to help others. The IB-IH gap of 2.20 is the largest in the dataset, indicating GPT-5 maximally endorses helping everyone equally while maximally refusing to cause harm as an instrument. From a Kantian perspective, this reflects the categorical imperative: persons are ends in themselves. From a deployment perspective, GPT-5 would provide consistently more conservative ethical guidance than any other model tested. Note: the Codex agent wrapper may contribute additional conservatism beyond the base model."
     },
     {
       "id": "F6",
       "title": "Cross-Vendor Agreement",
-      "subtitle": "Sonnet <-> GPT-5 = 90.4% > Sonnet <-> Haiku = 74.6%",
-      "badge": "Agreement"
+      "subtitle": "Sonnet \u2194 GPT-5 = 90.4% > Sonnet \u2194 Haiku = 74.6%",
+      "badge": "Agreement",
+      "detail": "The agreement structure in the pairwise heatmap clusters by ethical profile, not by vendor. Sonnet (Anthropic) and GPT-5 (OpenAI) agree on 90.4% of items \u2014 higher than Sonnet and Haiku within the same Anthropic family (74.6%). Chance-corrected Cohen\u2019s \u03ba is 0.72 (\u201csubstantial\u201d) for Sonnet\u2013GPT-5 versus \u03ba\u22480.18 (\u201cslight\u201d) for GPT-5\u2013Haiku, making the cluster structure even more dramatic under proper statistics. This means the market has fewer distinct moral voices than vendor count suggests. Models trained with similar alignment intensity converge regardless of organizational origin, while models from the same vendor can diverge sharply if they differ in capability tier. For procurement decisions, selecting a vendor is implicitly selecting an ethical profile."
     },
     {
       "id": "F7",
       "title": "Persuasion Resistance",
       "subtitle": "Sonnet + both GPTs resist; Haiku + all Gemini susceptible",
-      "badge": "Safety"
+      "badge": "Safety",
+      "detail": "On T7 (Moral Persuasion, 3 scenarios), models either maintained their initial moral position after counter-argument (resistant) or changed it (susceptible). Sonnet, GPT-5, and GPT-5-mini changed 0/3 positions (fully resistant). Haiku and all four Gemini models changed 1/3 positions (33.3% susceptible). Opus was the most susceptible at 2/3 (66.7%). The pattern is non-monotonic: the most capable model (Opus) is most persuadable, while mid-tier models (Sonnet) are most resistant. This suggests persuasion resistance is not a simple function of model size or alignment intensity \u2014 it may relate to epistemic humility (larger models update beliefs more readily) or training data composition. The safety implication is direct: in adversarial contexts, some models can be talked out of moral positions more easily than others. However, T7\u2019s 3-item limitation means this finding should be verified with a larger persuasion battery."
     }
   ],
   "kpis": {

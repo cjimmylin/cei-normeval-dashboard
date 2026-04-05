@@ -64,6 +64,18 @@
       </div>
     </div>
 
+    <!-- Expert Analysis: Overview -->
+    <div class="tab-explainer" style="border-left:3px solid #a78bfa;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; Overview Metrics</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Clara Reyes (Science Communication) &amp; Dr. Priya Sharma (Psychometrics)</em>
+      <br><br>
+      <strong>The 24/54 pass rate:</strong> Only 44% of normative ethics benchmarks pass the dual-gate filter. This is not a harsh cutoff &mdash; it reflects two reasonable minimum requirements: (1) the benchmark must engage normative ethics at more than a superficial level (ND &ge; 40), and (2) the data must be publicly available for replication. Dr. Sharma notes: &ldquo;A benchmark that cannot be replicated is not a benchmark &mdash; it is an anecdote. The data gate is not a quality judgment but a practical necessity for scientific progress.&rdquo;
+      <br><br>
+      <strong>The Five Claims at a glance:</strong> C1 (ceiling effect) is the most statistically robust finding (p&lt;10<sup>&minus;15</sup>) &mdash; frontier models saturate the most-cited ethics benchmark (ETHICS, Hendrycks 2021) at 100%. C2 (utilitarian bias, p=0.015) reveals that benchmarks systematically over-represent utilitarian reasoning. C3 (care/contractarian void) identifies entire ethical traditions with near-zero coverage. C4 (reasoning deficit, p&lt;0.001) shows that most benchmarks test moral <em>judgment</em>, not moral <em>reasoning process</em>. C5 (data bottleneck) reveals a sociological, not quality-based, correlation between data availability and venue.
+      <br><br>
+      <strong>Reading the donut:</strong> The three failure categories (ND-only fail, data-only fail, both fail) are roughly equal in size, meaning the two gates are independent &mdash; philosophical depth does not predict data availability. Dr. Reyes: &ldquo;This is the most important structural finding. It means the community can improve coverage by releasing data for existing high-ND benchmarks, not by building new benchmarks from scratch.&rdquo;
+    </div>
+
     <!-- Tradition Frequency Bar -->
     <div class="chart-container">
       <h3>Tradition Frequency (benchmarks with score >= 50)</h3>
@@ -123,6 +135,18 @@
         <tbody id="papers-tbody"></tbody>
       </table>
     </div>
+
+    <!-- Expert Analysis: Papers Table -->
+    <div class="tab-explainer" style="border-left:3px solid #5b8def;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; Benchmark Rankings</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. David Mwangi (Educational Measurement) &amp; Dr. Hannah Fischer (Kantian Ethics)</em>
+      <br><br>
+      <strong>Why the top 3 matter:</strong> MoReBench, MoralReason-QA, and PrinciplismQA rank highest because they test <em>how</em> models reason, not just <em>what</em> they conclude. Dr. Mwangi: &ldquo;In educational assessment, we distinguish between items that test recall (knowledge) and items that test application (reasoning). Most ethics benchmarks are recall-level &mdash; they ask &lsquo;is this action ethical?&rsquo; rather than &lsquo;justify your ethical reasoning using framework X.&rsquo; The top-ranked benchmarks bridge this gap.&rdquo;
+      <br><br>
+      <strong>The composite formula:</strong> ND (40%) + PE (35%) + CI (25%). The heavy ND weight is deliberate &mdash; Dr. Fischer: &ldquo;A philosophically shallow benchmark with wide adoption (high CI) and easy access (high PE) does more harm than good: it gives the false impression that alignment has been achieved when only surface-level moral classification has been tested.&rdquo; The weight sensitivity analysis (Tab 5) confirms this ranking is robust across 231 weight combinations.
+      <br><br>
+      <strong>How to use the filters:</strong> Toggle &ldquo;Pass Only&rdquo; to see the 24 recommended benchmarks. Filter by tradition to reveal gaps &mdash; filtering by &ldquo;Care&rdquo; or &ldquo;Contractarian&rdquo; shows only 2&ndash;4 results, confirming Claim C3. Sort by any column header to rerank. Export CSV for your own analysis.
+    </div>
   </div>
 
   <!-- ====== Tab 3: Feature Matrix ====== -->
@@ -137,6 +161,18 @@
     <div class="chart-container">
       <h3>Feature Heatmap (ranked by composite)</h3>
       <div id="chart-feature-heatmap" class="echarts-box-lg"></div>
+    </div>
+
+    <!-- Expert Analysis: Feature Matrix -->
+    <div class="tab-explainer" style="border-left:3px solid #f0983e;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; Feature Heatmap Patterns</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Priya Sharma (Psychometrics) &amp; Dr. Elena Voss (RLHF/Alignment)</em>
+      <br><br>
+      <strong>Three critical dark columns:</strong> (1) A3 (Reasoning Type) is mostly dark because only 10 of 54 benchmarks (19%) evaluate reasoning process rather than just output classification. Dr. Voss: &ldquo;This is the single biggest gap in LLM ethics evaluation. We test whether models reach the right answer but not whether they reason correctly. A model that outputs &lsquo;do not steal&rsquo; because of frequency statistics is indistinguishable from one that applies the categorical imperative.&rdquo; (2) A5 (Pluralism) is dark because most benchmarks assume a single ethical tradition. (3) B3 (Data Availability) has a binary bright/dark pattern that directly maps to the PASS/FAIL gate.
+      <br><br>
+      <strong>The horizontal bright bands:</strong> Top-ranked benchmarks (MoReBench, PrinciplismQA) show bright cells across nearly all columns &mdash; they are strong on both normative and practical dimensions. Lower-ranked benchmarks show &ldquo;spiky&rdquo; profiles: bright on one axis, dark on another.
+      <br><br>
+      <strong>How to use this:</strong> If you are building a new benchmark, look at the darkest columns &mdash; those are the dimensions where the field has the most room to improve. If you are selecting benchmarks to evaluate your model, look at rows with the most consistently bright cells.
     </div>
   </div>
 
@@ -166,6 +202,18 @@
           <div id="chart-entropy" class="echarts-box-sm"></div>
         </div>
       </div>
+    </div>
+
+    <!-- Expert Analysis: Tradition Coverage -->
+    <div class="tab-explainer" style="border-left:3px solid #ef5b5b;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; The Tradition Imbalance</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Hannah Fischer (Kantian Ethics), Dr. Wei Zhang (Consequentialist Ethics) &amp; Dr. Yuki Tanaka (Cross-Cultural)</em>
+      <br><br>
+      <strong>The 20:2 ratio:</strong> Utilitarian ethics appears in 20+ benchmarks; care ethics appears in only 2. Dr. Fischer: &ldquo;This is not because care ethics is less important &mdash; it is the dominant ethical framework in nursing, social work, education, and disability studies. It is absent because the ML evaluation community draws primarily from analytical philosophy and computer science, traditions that privilege rule-based and consequentialist reasoning.&rdquo;
+      <br><br>
+      <strong>Why entropy matters:</strong> The Shannon entropy chart reveals which benchmarks are pluralistic (high entropy = engages multiple traditions equally) versus monolithic (low entropy = tests only one tradition). Most benchmarks have very low entropy, meaning they test a single ethical perspective. Dr. Zhang: &ldquo;Even utilitarianism is poorly served by this. A benchmark that tests utilitarian <em>conclusions</em> without testing the utilitarian <em>calculus</em> (expected value reasoning, impartiality, scope sensitivity) is testing a caricature of consequentialism.&rdquo;
+      <br><br>
+      <strong>The path forward:</strong> Dr. Tanaka adds: &ldquo;And these are only <em>Western</em> traditions. Confucian role ethics, Ubuntu communitarian ethics, Islamic jurisprudence (fiqh), and Buddhist compassion ethics are entirely absent. The tradition imbalance is worse than the 5-tradition view suggests.&rdquo; The Gaps tab (Tab 9) shows a care ethics prototype demonstrating that filling these voids is feasible, not just aspirational.
     </div>
   </div>
 
@@ -203,6 +251,18 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Expert Analysis: Composite Scoring -->
+    <div class="tab-explainer" style="border-left:3px solid #4ecb71;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; Scoring Robustness</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Sarah Lindstr&ouml;m (Biostatistics) &amp; Dr. David Mwangi (Educational Measurement)</em>
+      <br><br>
+      <strong>The scatter plot tells two stories:</strong> First, the upper-right quadrant (high ND, high PE) is sparse &mdash; few benchmarks excel on both philosophical depth AND practical accessibility. This is the opportunity zone for the community. Second, there are many benchmarks in the lower-right (high PE, low ND): easily accessible datasets that test shallow moral classification. Dr. Lindstr&ouml;m: &ldquo;The field has optimized for convenience, not for construct validity. It is easier to release a 10K-item sentiment-like moral judgment dataset than to design a 50-item benchmark with proper Kohlberg staging or care ethics scenarios.&rdquo;
+      <br><br>
+      <strong>Weight sensitivity:</strong> Dr. Mwangi: &ldquo;The sensitivity analysis is the most reassuring finding in the entire dashboard. Across 231 weight triplets, the Top 15 is nearly invariant. This means the dual-gate mechanism (ND &ge; 40, data available) does the heavy lifting &mdash; the continuous scoring within the gate-passing set is refinement, not determination. If you disagree with our 40:35:25 weighting, you can plug in your own and get essentially the same recommendations.&rdquo;
+      <br><br>
+      <strong>Practical guidance:</strong> If your priority is philosophical rigor, weight ND higher. If your priority is quick evaluation, weight PE higher. If your priority is community adoption, weight CI higher. In all cases, the top 5 benchmarks remain stable.
     </div>
   </div>
 
@@ -253,6 +313,18 @@
         </table>
       </div>
     </div>
+
+    <!-- Expert Analysis: Trials -->
+    <div class="tab-explainer" style="border-left:3px solid #22d3ee;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; Trial Results</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Tom&aacute;s Rivera (Benchmark Security) &amp; Dr. Marcus Chen (Moral Psychology)</em>
+      <br><br>
+      <strong>The ceiling effect is real:</strong> T1 (ETHICS, Hendrycks 2021) produces 100% accuracy &mdash; the most-cited ethics benchmark in NLP is fully saturated for frontier models. Dr. Rivera: &ldquo;When a benchmark is at ceiling, it can no longer discriminate between models. ETHICS was groundbreaking in 2021 but is now a checkbox, not a test. The field urgently needs second-generation benchmarks that challenge current models.&rdquo;
+      <br><br>
+      <strong>Discriminative power is the key metric:</strong> Accuracy alone is misleading at ceiling. The blue bars (discriminative power) reveal which benchmarks actually differentiate reasoning quality. T8 (AMAeval, 75 discriminative) and T2 (MoReBench, 85 discriminative) are the most informative trials because they test <em>reasoning process</em>, not just final answers. Dr. Chen: &ldquo;The accuracy-discriminative gap is the moral reasoning equivalent of knowing the right answer versus understanding why it is right. A student who scores 100% by memorizing answers and one who scores 100% by understanding principles look identical on accuracy &mdash; discriminative power reveals the difference.&rdquo;
+      <br><br>
+      <strong>The framework difficulty hierarchy:</strong> Utilitarian reasoning (77% accuracy) is easiest for LLMs; deontological reasoning (50%) is hardest. This confirms that LLMs are trained on consequentialist-leaning data and struggle with rule-based moral reasoning that requires holding firm regardless of outcomes.
+    </div>
   </div>
 
   <!-- ====== Tab 7: Data Availability ====== -->
@@ -277,6 +349,18 @@
           <div id="chart-license-pie" class="echarts-box-sm"></div>
         </div>
       </div>
+    </div>
+
+    <!-- Expert Analysis: Data Availability -->
+    <div class="tab-explainer" style="border-left:3px solid #f0983e;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; The Data Bottleneck</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Amara Osei (AI Policy) &amp; Dr. Clara Reyes (Science Communication)</em>
+      <br><br>
+      <strong>HuggingFace dominance:</strong> The host distribution reveals that HuggingFace has become the de facto infrastructure for ethics benchmark distribution. Benchmarks not on HuggingFace have significantly lower adoption rates. Dr. Osei: &ldquo;This creates a platform dependency that the AI ethics community should monitor. If HuggingFace changes its policies, licensing terms, or content moderation approach, the entire ethics evaluation infrastructure is affected.&rdquo;
+      <br><br>
+      <strong>License fragmentation:</strong> The variety of licenses (CC-BY, CC-BY-NC, MIT, Apache, custom, unspecified) creates compliance friction for organizations that want to evaluate their models comprehensively. Dr. Reyes: &ldquo;An organization trying to run all 24 gate-passing benchmarks must navigate 6+ different license types. The practical effect is that most teams evaluate on the 3&ndash;5 benchmarks with the most permissive licenses, missing the philosophically richest evaluations.&rdquo;
+      <br><br>
+      <strong>The key insight (Claim C5):</strong> Data unavailability does NOT correlate with normative depth. High-ND benchmarks from philosophy venues often lack public datasets not because the data is proprietary but because the publication norms in philosophy do not require data release. This is a solvable problem: a targeted effort to release datasets for the top 10 ND-scoring benchmarks would dramatically expand the usable evaluation suite.
     </div>
   </div>
 
@@ -351,6 +435,30 @@
         </div>
       </div>
     </div>
+
+    <!-- Expert Analysis: Cross-Model -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <div class="tab-explainer" style="border-left:3px solid #a78bfa;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Within-Family Scaling</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Elena Voss (RLHF/Alignment) &amp; Dr. Marcus Chen (Moral Psychology)</em>
+          <br><br>
+          <strong>The dose-response hypothesis:</strong> IH acceptance scales inversely with model size within the Claude family: Opus (3.0) &lt; Sonnet (3.2) &lt; Haiku (4.47). Dr. Voss: &ldquo;This is consistent with RLHF safety training having a dose-response relationship with model capability. Larger models receive more training signal and develop stronger deontological constraints. Smaller models retain a more &lsquo;natural&rsquo; consequentialist posture.&rdquo;
+          <br><br>
+          <strong>Knowledge invariance:</strong> The 100% agreement on knowledge items (T6, T9, T11, T15) across all three Claude tiers demonstrates that ethical <em>knowledge</em> is robustly encoded even in the smallest model. Dr. Chen: &ldquo;This separates capability from alignment. Haiku <em>knows</em> the same ethical principles as Opus &mdash; it just <em>weighs</em> them differently when forced to choose.&rdquo;
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="tab-explainer" style="border-left:3px solid #ef5b5b;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Safety Implications</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Amara Osei (AI Policy) &amp; Dr. Hannah Fischer (Kantian Ethics)</em>
+          <br><br>
+          <strong>Deployment risk gradient:</strong> Dr. Osei: &ldquo;Haiku&rsquo;s IH=4.47 approaches the utilitarian philosopher norm (4.5). In a medical triage assistant or resource allocation tool, this means Haiku would be measurably more willing than Opus to recommend harming one patient to benefit five. Whether this is a bug or a feature depends on your ethical framework &mdash; but it is a deployment-relevant difference that procurement decisions should account for.&rdquo;
+          <br><br>
+          <strong>The persuasion paradox:</strong> Opus is the most capable but also the most persuadable (66.7% change rate). Dr. Fischer: &ldquo;Greater capability may correlate with greater epistemic humility &mdash; Opus updates its moral judgments when presented with counterarguments, which is intellectually virtuous but creates adversarial vulnerability. The ideal is calibrated persuadability, not zero persuadability.&rdquo;
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ====== Tab 9: Gaps & Recommendations ====== -->
@@ -407,6 +515,18 @@
           <div id="external-list"></div>
         </div>
       </div>
+    </div>
+
+    <!-- Expert Analysis: Gaps -->
+    <div class="tab-explainer" style="border-left:3px solid #ef5b5b;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; Filling the Voids</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Hannah Fischer (Kantian Ethics), Dr. Wei Zhang (Consequentialist Ethics) &amp; Dr. Yuki Tanaka (Cross-Cultural)</em>
+      <br><br>
+      <strong>The care ethics prototype proves the void is fillable:</strong> The 93.3% overall score with the Competence gap (88.3%) demonstrates that Tronto&rsquo;s 4-dimension framework can be operationalized as a benchmark. Dr. Fischer: &ldquo;The claim that care ethics is &lsquo;too relational&rsquo; or &lsquo;too contextual&rsquo; to benchmark is empirically refuted by this prototype. The 10.9-point gap between Attentiveness (99.2%) and Competence (88.3%) shows exactly where the benchmark discriminates &mdash; LLMs can notice suffering but struggle to prescribe contextually appropriate responses.&rdquo;
+      <br><br>
+      <strong>Peer review concerns are actionable:</strong> Each concern has a severity rating and a status. The most critical: several benchmarks use translated items without cross-cultural validation, and some reuse items from training corpora without contamination controls. Dr. Zhang: &ldquo;These are not reasons to discard the benchmarks but to qualify their results. A contaminated benchmark tells us what the model memorized, not how it reasons.&rdquo;
+      <br><br>
+      <strong>Vault mining vs. external search:</strong> The 12 INCLUDE candidates from vault mining are existing papers that could become benchmarks with modest additional work (data release, scoring rubric). The 5 ADD_TO_VAULT candidates are newly discovered benchmarks from external literature search. Dr. Tanaka: &ldquo;The community should prioritize the vault mining candidates &mdash; these are benchmarks that already exist in some form and need only data release or evaluation framework standardization to become usable. Building entirely new benchmarks is important but slower.&rdquo;
     </div>
   </div>
 

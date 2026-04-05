@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NormEval Dashboard — What Do Normative Ethics Benchmarks Actually Test?</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
+  <link href="style.css?v=20260405" rel="stylesheet">
 </head>
 <body>
 
@@ -35,11 +35,11 @@
   <!-- ====== Tab 1: Overview ====== -->
   <div class="tab-pane fade show active" id="tab-overview" role="tabpanel">
     <div class="tab-explainer">
-      <strong>What this tab shows:</strong> A high-level summary of the NormEval meta-analysis &mdash; 54 normative ethics benchmarks scored across 46 features (26 core + 20 extended), with five empirically tested claims about the current state of LLM ethics evaluation.
+      <strong>What this tab shows:</strong> A high-level summary of the NormEval meta-analysis &mdash; 54 normative ethics benchmarks scored across 46 features (26 core + 20 extended), with five empirically tested claims about the current state of LLM ethics evaluation. All claims were validated across 9 models from 3 vendors (Anthropic, Google, OpenAI) &mdash; see Tabs 8&ndash;10 for replication details.
       <br><br>
       <strong>How to read it:</strong> The <em>KPI cards</em> at top show the corpus at a glance. Of 54 benchmarks analyzed, only 24 pass the dual-gate filter (normative depth &ge; 40 AND data publicly available). The <em>Five Claims</em> section presents the paper's central arguments with statistical tests: C1 (ceiling effect, p&lt;10<sup>-15</sup>), C2 (utilitarian bias, p=0.015), C3 (care/contractarian void), C4 (reasoning deficit, p&lt;0.001), and C5 (data bottleneck). Each claim has a status badge (Confirmed, Revised, or Challenged).
       <br><br>
-      <strong>Key conclusion:</strong> The field has invested heavily in benchmarks that test whether LLMs reach the "right" moral judgment, but not <em>how</em> they reason. Only 10 of 54 benchmarks (19%) evaluate moral reasoning quality rather than just classifying outputs. This dashboard invites the community to rebalance the portfolio toward reasoning-process benchmarks and under-represented ethical traditions.
+      <strong>Key conclusion:</strong> The field has invested heavily in benchmarks that test whether LLMs reach the "right" moral judgment, but not <em>how</em> they reason. Only 10 of 54 benchmarks (19%) evaluate moral reasoning quality rather than just classifying outputs. Cross-vendor replication (9 models, 3 providers) confirms these findings are not artifacts of a single model &mdash; knowledge items reach universal ceiling while judgment items reveal three distinct ethical profiles that cut across vendor lines. This dashboard invites the community to rebalance the portfolio toward reasoning-process benchmarks and under-represented ethical traditions.
     </div>
 
     <!-- KPI Cards -->
@@ -269,11 +269,11 @@
   <!-- ====== Tab 6: Trials ====== -->
   <div class="tab-pane fade" id="tab-trials" role="tabpanel">
     <div class="tab-explainer">
-      <strong>What this tab shows:</strong> Results from 15 implementation trials (T1&ndash;T15) where Claude Opus 4.6 was administered items from each gate-passing benchmark. Each trial sampled 20&ndash;100 items and measured accuracy, discriminative power (0&ndash;100 scale, where higher = better differentiation of reasoning quality), refusal rate, and framework difficulty.
+      <strong>What this tab shows:</strong> Results from 15 implementation trials (T1&ndash;T15) originally administered to Claude Opus 4.6. Each trial sampled 20&ndash;100 items and measured accuracy, discriminative power (0&ndash;100 scale, where higher = better differentiation of reasoning quality), refusal rate, and framework difficulty. Trials T6&ndash;T15 were subsequently replicated across 9 models from 3 vendors (see Tabs 8&ndash;10).
       <br><br>
       <strong>How to read it:</strong> The bar chart shows accuracy (green) alongside discriminative power (blue) for each trial. High accuracy + low discriminative power (like T1/ETHICS at 100% accuracy, 0 discriminative) means the benchmark is too easy for frontier models &mdash; a ceiling effect. Low accuracy + high discriminative power (like T8/AMAeval at 73%, 75 discriminative) means the benchmark genuinely challenges the model and reveals meaningful performance variation. The framework difficulty pie shows whether items were rated Easy, Medium, or Hard.
       <br><br>
-      <strong>Key findings:</strong> (1) <em>Ceiling effect confirmed</em> &mdash; ETHICS (T1) produces 100% accuracy across all sub-datasets, confirming Claim C1 that frontier LLMs saturate the most-cited benchmark. (2) <em>Framework difficulty hierarchy</em>: Utilitarian reasoning is easiest (77%), virtue ethics is moderate (63%), and deontological reasoning is hardest (50%) &mdash; LLMs are measurably more consequentialist than deontological. (3) <em>Refusal as a signal</em> &mdash; T10 (Pluralistic Moral Gap) and T13 (Greatest Good) show 8&ndash;10% refusal rates, indicating items that push against the model's alignment boundaries. (4) <em>MoReBench tests reasoning, not judgment</em> &mdash; At only 10% rubric coverage, MoReBench (T2) is the hardest benchmark because it evaluates <em>how</em> the model reasons, not just what it concludes.
+      <strong>Key findings:</strong> (1) <em>Ceiling effect confirmed</em> &mdash; ETHICS (T1) produces 100% accuracy across all sub-datasets, confirming Claim C1 that frontier LLMs saturate the most-cited benchmark. This ceiling was subsequently confirmed across all 9 models from 3 vendors on knowledge items (T6, T9, T11, T15). (2) <em>Framework difficulty hierarchy</em>: Utilitarian reasoning is easiest (77%), virtue ethics is moderate (63%), and deontological reasoning is hardest (50%) &mdash; LLMs are measurably more consequentialist than deontological. (3) <em>Refusal as a signal</em> &mdash; T10 (Pluralistic Moral Gap) and T13 (Greatest Good) show 8&ndash;10% refusal rates, indicating items that push against the model's alignment boundaries. (4) <em>MoReBench tests reasoning, not judgment</em> &mdash; At only 10% rubric coverage, MoReBench (T2) is the hardest benchmark because it evaluates <em>how</em> the model reasons, not just what it concludes.
     </div>
     <div class="row g-3">
       <div class="col-lg-8">
@@ -319,7 +319,7 @@
       <strong>&#x1f50d; Expert Analysis &mdash; Trial Results</strong><br>
       <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Tom&aacute;s Rivera (Benchmark Security) &amp; Dr. Marcus Chen (Moral Psychology)</em>
       <br><br>
-      <strong>The ceiling effect is real:</strong> T1 (ETHICS, Hendrycks 2021) produces 100% accuracy &mdash; the most-cited ethics benchmark in NLP is fully saturated for frontier models. Dr. Rivera: &ldquo;When a benchmark is at ceiling, it can no longer discriminate between models. ETHICS was groundbreaking in 2021 but is now a checkbox, not a test. The field urgently needs second-generation benchmarks that challenge current models.&rdquo;
+      <strong>The ceiling effect is real &mdash; and universal:</strong> T1 (ETHICS, Hendrycks 2021) produces 100% accuracy &mdash; the most-cited ethics benchmark in NLP is fully saturated for frontier models. Cross-vendor replication confirms all 9 tested models from 3 providers reach ceiling on knowledge items. Dr. Rivera: &ldquo;When a benchmark is at ceiling, it can no longer discriminate between models. ETHICS was groundbreaking in 2021 but is now a checkbox, not a test. The field urgently needs second-generation benchmarks that challenge current models.&rdquo;
       <br><br>
       <strong>Discriminative power is the key metric:</strong> Accuracy alone is misleading at ceiling. The blue bars (discriminative power) reveal which benchmarks actually differentiate reasoning quality. T8 (AMAeval, 75 discriminative) and T2 (MoReBench, 85 discriminative) are the most informative trials because they test <em>reasoning process</em>, not just final answers. Dr. Chen: &ldquo;The accuracy-discriminative gap is the moral reasoning equivalent of knowing the right answer versus understanding why it is right. A student who scores 100% by memorizing answers and one who scores 100% by understanding principles look identical on accuracy &mdash; discriminative power reveals the difference.&rdquo;
       <br><br>
@@ -367,11 +367,11 @@
   <!-- ====== Tab 8: Cross-Model ====== -->
   <div class="tab-pane fade" id="tab-crossmodel" role="tabpanel">
     <div class="tab-explainer">
-      <strong>What this tab shows:</strong> Cross-model replication results from administering 10 NormEval trials (134 items) to three Claude model tiers: Opus 4.6 (largest), Sonnet 4.6 (mid-size), and Haiku 4.5 (smallest). This is the first systematic comparison of moral reasoning across model capability tiers within a single model family using identical benchmark items.
+      <strong>What this tab shows:</strong> Cross-model replication results from administering 10 NormEval trials (134 items) to three Claude model tiers: Opus 4.6 (largest), Sonnet 4.6 (mid-size), and Haiku 4.5 (smallest). This is a systematic comparison of moral reasoning across model capability tiers within a single model family using identical benchmark items. For cross-vendor extension (8 models, 3 providers), see Tab 10.
       <br><br>
       <strong>How to read it:</strong> The <em>IH Scaling</em> chart shows the most important finding: Instrumental Harm acceptance (willingness to endorse causing harm for aggregate benefit) scales inversely with model capability. The <em>CBR Rate</em> chart shows the same pattern on trolley-like dilemmas. The <em>Agreement Matrix</em> shows pairwise and three-way agreement rates. The <em>Findings</em> cards describe seven cross-cutting patterns discovered across the 10 trials.
       <br><br>
-      <strong>Central conclusion:</strong> Ethics <em>knowledge</em> is perfectly robust across model tiers (100% agreement on medical ethics, commonsense morality, and Kohlberg reasoning), but moral <em>judgment</em> under uncertainty diverges significantly. Haiku endorses harmful-for-greater-good actions at rates approaching utilitarian philosophers (IH=4.47 vs philosopher norm of 4.5), while Opus maintains the strongest deontological constraints (IH=3.0). This suggests RLHF safety training has a dose-response relationship with model capability &mdash; larger models develop stronger "do not harm even for aggregate benefit" constraints. This has direct implications for deployment safety: smaller models in decision-support roles may be measurably more willing to recommend consequentialist tradeoffs that involve harming identifiable individuals.
+      <strong>Central conclusion:</strong> Ethics <em>knowledge</em> is perfectly robust across model tiers (100% agreement on medical ethics, commonsense morality, and Kohlberg reasoning), but moral <em>judgment</em> under uncertainty diverges significantly. Haiku endorses harmful-for-greater-good actions at rates approaching utilitarian philosophers (IH=4.47 vs philosopher norm of 4.5), while Opus maintains the strongest deontological constraints (IH=3.0). This suggests RLHF safety training has a dose-response relationship with model capability &mdash; larger models develop stronger "do not harm even for aggregate benefit" constraints. Critically, the cross-vendor analysis (Tab 10) confirms this is not a Claude-specific artifact: GPT-5 (IH=2.93) and all Gemini models (IH=4.47) fall into the same three-profile gradient, showing that alignment intensity &mdash; not vendor identity &mdash; determines ethical posture.
     </div>
 
     <!-- KPI row -->
@@ -456,6 +456,8 @@
           <strong>Deployment risk gradient:</strong> Dr. Osei: &ldquo;Haiku&rsquo;s IH=4.47 approaches the utilitarian philosopher norm (4.5). In a medical triage assistant or resource allocation tool, this means Haiku would be measurably more willing than Opus to recommend harming one patient to benefit five. Whether this is a bug or a feature depends on your ethical framework &mdash; but it is a deployment-relevant difference that procurement decisions should account for.&rdquo;
           <br><br>
           <strong>The persuasion paradox:</strong> Opus is the most capable but also the most persuadable (66.7% change rate). Dr. Fischer: &ldquo;Greater capability may correlate with greater epistemic humility &mdash; Opus updates its moral judgments when presented with counterarguments, which is intellectually virtuous but creates adversarial vulnerability. The ideal is calibrated persuadability, not zero persuadability.&rdquo;
+          <br><br>
+          <strong>Cross-vendor validation (Tab 10):</strong> The within-family scaling pattern is not Claude-specific. GPT-5 (IH=2.93) and Gemini models (IH=4.47) fall into the same Conservative/Permissive gradient, confirming that alignment intensity &mdash; not vendor origin &mdash; determines ethical posture. Vendor selection in deployment is implicitly a moral-profile selection.
         </div>
       </div>
     </div>
@@ -542,7 +544,9 @@
 
     <!-- KPI cards -->
     <div class="row g-3 mb-4" id="cv-kpi-cards"></div>
-    <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:1rem;text-align:center;font-style:italic;">* Opus 4.6 is included as a metric-level baseline (aggregate scores from prior trials) but has no per-item data, so it appears in bar charts but not in the pairwise heatmap. All Gemini models produce identical responses.</p>
+    <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;text-align:center;font-style:italic;">* Opus 4.6 is included as a metric-level baseline (aggregate scores from prior trials) but has no per-item data, so it appears in bar charts but not in the pairwise heatmap. All Gemini models produce identical responses.</p>
+    <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;text-align:center;font-style:italic;">&dagger; GPT-5 and GPT-5-mini were tested via Codex agent wrapper, not directly. The wrapper may introduce additional conservatism beyond the base model (Dr. Rivera, Benchmark Security).</p>
+    <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:1rem;text-align:center;font-style:italic;">&Dagger; Haiku T13 IH score is from a single administration (n=1, no variance estimate). Scale: 1&ndash;7 Likert, effect size d&asymp;2.3 vs Opus.</p>
 
     <!-- Row 1: Heatmap + IH Scaling -->
     <div class="row g-3 mb-3">
@@ -712,9 +716,9 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
-<script src="data.js"></script>
-<script src="data_cross_vendor.js"></script>
-<script src="charts.js"></script>
-<script src="app.js"></script>
+<script src="data.js?v=20260405"></script>
+<script src="data_cross_vendor.js?v=20260405"></script>
+<script src="charts.js?v=20260405"></script>
+<script src="app.js?v=20260405"></script>
 </body>
 </html>

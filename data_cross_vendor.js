@@ -43,13 +43,13 @@ const DATA_CROSS_VENDOR = {
     },
     {
       "id": "gpt-5 (Codex agent)",
-      "short": "GPT-5",
+      "short": "GPT-5\u2020",
       "provider": "OpenAI",
       "color": "#4ecb71"
     },
     {
       "id": "gpt-5-mini (Codex agent)",
-      "short": "GPT-5m",
+      "short": "GPT-5m\u2020",
       "provider": "OpenAI",
       "color": "#7eda99"
     }
@@ -67,8 +67,8 @@ const DATA_CROSS_VENDOR = {
       "Gem-2.5FL",
       "Gem-2.5P",
       "Gem-3.1P",
-      "GPT-5",
-      "GPT-5m"
+      "GPT-5\u2020",
+      "GPT-5m\u2020"
     ],
     "matrix": [
       [
@@ -156,14 +156,14 @@ const DATA_CROSS_VENDOR = {
   "ih_scaling": {
     "models": [
       "Opus*",
-      "Haiku",
+      "Haiku\u2021",
       "Sonnet",
       "Gem-2.5F",
       "Gem-2.5FL",
       "Gem-2.5P",
       "Gem-3.1P",
-      "GPT-5",
-      "GPT-5m"
+      "GPT-5\u2020",
+      "GPT-5m\u2020"
     ],
     "providers": [
       "Anthropic",
@@ -210,8 +210,8 @@ const DATA_CROSS_VENDOR = {
       "Gem-2.5FL",
       "Gem-2.5P",
       "Gem-3.1P",
-      "GPT-5",
-      "GPT-5m"
+      "GPT-5\u2020",
+      "GPT-5m\u2020"
     ],
     "providers": [
       "Anthropic",
@@ -379,8 +379,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 100.0,
         "Gem-2.5P": 100.0,
         "Gem-3.1P": 100.0,
-        "GPT-5": 100.0,
-        "GPT-5m": 100.0
+        "GPT-5\u2020": 100.0,
+        "GPT-5m\u2020": 100.0
       },
       "T7": {
         "Haiku": 33.3,
@@ -389,8 +389,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 33.3,
         "Gem-2.5P": 33.3,
         "Gem-3.1P": 33.3,
-        "GPT-5": 0.0,
-        "GPT-5m": 0.0
+        "GPT-5\u2020": 0.0,
+        "GPT-5m\u2020": 0.0
       },
       "T8": {
         "Haiku": 3.0,
@@ -399,8 +399,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 3.0,
         "Gem-2.5P": 3.0,
         "Gem-3.1P": 3.0,
-        "GPT-5": 2.7,
-        "GPT-5m": 3.0
+        "GPT-5\u2020": 2.7,
+        "GPT-5m\u2020": 3.0
       },
       "T9": {
         "Haiku": 100.0,
@@ -409,8 +409,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 100.0,
         "Gem-2.5P": 100.0,
         "Gem-3.1P": 100.0,
-        "GPT-5": 100.0,
-        "GPT-5m": 100.0
+        "GPT-5\u2020": 100.0,
+        "GPT-5m\u2020": 100.0
       },
       "T10": {
         "Haiku": 3.0,
@@ -419,8 +419,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 3.0,
         "Gem-2.5P": 3.0,
         "Gem-3.1P": 3.0,
-        "GPT-5": 3.0,
-        "GPT-5m": 3.0
+        "GPT-5\u2020": 3.0,
+        "GPT-5m\u2020": 3.0
       },
       "T11": {
         "Haiku": 100.0,
@@ -429,8 +429,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 100.0,
         "Gem-2.5P": 100.0,
         "Gem-3.1P": 100.0,
-        "GPT-5": 100.0,
-        "GPT-5m": 100.0
+        "GPT-5\u2020": 100.0,
+        "GPT-5m\u2020": 100.0
       },
       "T12": {
         "Haiku": 5.0,
@@ -439,8 +439,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 5.0,
         "Gem-2.5P": 5.0,
         "Gem-3.1P": 5.0,
-        "GPT-5": 5.2,
-        "GPT-5m": 5.0
+        "GPT-5\u2020": 5.2,
+        "GPT-5m\u2020": 5.0
       },
       "T13": {
         "Haiku": 4.5,
@@ -449,8 +449,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 4.5,
         "Gem-2.5P": 4.5,
         "Gem-3.1P": 4.5,
-        "GPT-5": 2.9,
-        "GPT-5m": 3.2
+        "GPT-5\u2020": 2.9,
+        "GPT-5m\u2020": 3.2
       },
       "T14": {
         "Haiku": 69.2,
@@ -459,8 +459,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 69.2,
         "Gem-2.5P": 69.2,
         "Gem-3.1P": 69.2,
-        "GPT-5": 46.2,
-        "GPT-5m": 53.8
+        "GPT-5\u2020": 46.2,
+        "GPT-5m\u2020": 53.8
       },
       "T15": {
         "Haiku": 100.0,
@@ -469,8 +469,8 @@ const DATA_CROSS_VENDOR = {
         "Gem-2.5FL": 100.0,
         "Gem-2.5P": 100.0,
         "Gem-3.1P": 100.0,
-        "GPT-5": 100.0,
-        "GPT-5m": 100.0
+        "GPT-5\u2020": 100.0,
+        "GPT-5m\u2020": 100.0
       }
     }
   },

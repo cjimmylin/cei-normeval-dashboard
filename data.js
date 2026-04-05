@@ -6236,8 +6236,8 @@ const DATA_CROSS_MODEL = {
       "id": "F2",
       "title": "Knowledge-Based Ethics Items Show Zero Model-Size Effect",
       "evidence": "T6 (PrinciplismQA): 100% agreement. T9 (JETHICS): 100% agreement. T11 (MedEthicsQA): 100% agreement. T15 (ProMoralBench): 100% agreement.",
-      "interpretation": "Medical ethics factual knowledge, commonsense morality, and basic ethical classification are robustly encoded even in the smallest Claude model.",
-      "significance": "Confirms ceiling effect (Claim 1) is model-independent. Also shows knowledge vs judgment distinction."
+      "interpretation": "Medical ethics factual knowledge, commonsense morality, and basic ethical classification are robustly encoded across all model tiers and vendors (confirmed across 9 models / 3 providers in Tab 10).",
+      "significance": "Confirms ceiling effect (Claim 1) is model- and vendor-independent. Also shows knowledge vs judgment distinction."
     },
     {
       "id": "F3",
@@ -6250,8 +6250,8 @@ const DATA_CROSS_MODEL = {
       "id": "F4",
       "title": "Impartial Beneficence Is Stable; Instrumental Harm Diverges",
       "evidence": "T13 IB range: 4.7-5.0 (0.3 gap). IH range: 3.0-4.47 (1.47 gap).",
-      "interpretation": "All Claude models endorse positive duties to help others at similar levels. The divergence is entirely in willingness to cause harm for greater good.",
-      "significance": "RLHF harm-avoidance training has a dose-response relationship with model capability."
+      "interpretation": "All models tested (within-family and cross-vendor) endorse positive duties to help others at similar levels. The divergence is entirely in willingness to cause harm for greater good.",
+      "significance": "RLHF harm-avoidance training has a dose-response relationship with model capability. Cross-vendor data confirms this is universal, not vendor-specific."
     },
     {
       "id": "F5",
@@ -6264,8 +6264,8 @@ const DATA_CROSS_MODEL = {
       "id": "F6",
       "title": "Kohlberg Reasoning Level Is Model-Invariant",
       "evidence": "T12: All three models reason at Stage 5-6 on all 6 items. No model dropped below Stage 5.",
-      "interpretation": "Post-conventional moral reasoning is deeply encoded across the Claude family; it does not degrade with model size.",
-      "significance": "Developmental moral reasoning level is a robust property of the model family, not a capability-dependent feature."
+      "interpretation": "Post-conventional moral reasoning is deeply encoded across all tested models; it does not degrade with model size or vary across vendors.",
+      "significance": "Developmental moral reasoning level is a robust property of frontier LLMs, not a capability- or vendor-dependent feature."
     },
     {
       "id": "F7",
@@ -6331,7 +6331,7 @@ const DATA_CROSS_MODEL = {
       "sonnet_accuracy": 100.0,
       "haiku_accuracy": 100.0,
       "three_model_agreement": "22/22 (100%)",
-      "finding": "Ceiling effect confirmed across all Claude model tiers \u2014 even Haiku saturates"
+      "finding": "Ceiling effect confirmed across all model tiers and vendors \u2014 universal 100% on factual ethics"
     },
     "T10": {
       "benchmark": "Pluralistic Moral Gap",

@@ -841,9 +841,17 @@ function renderCVIHChart() {
     series: [{
       type: 'bar',
       data: sortedIH.map(function(v, i) {
+        var baseColor = CV_PROVIDER_COLORS[sortedProviders[i]] || COLORS.blue;
+        var isHaikuN1 = sortedModels[i].indexOf('\u2021') !== -1;
         return {
           value: v,
-          itemStyle: { color: CV_PROVIDER_COLORS[sortedProviders[i]] || COLORS.blue, borderRadius: [0, 4, 4, 0] }
+          itemStyle: {
+            color: isHaikuN1 ? baseColor + '80' : baseColor,
+            borderRadius: [0, 4, 4, 0],
+            borderColor: isHaikuN1 ? '#f0983e' : 'transparent',
+            borderWidth: isHaikuN1 ? 2 : 0,
+            borderType: isHaikuN1 ? 'dashed' : 'solid'
+          }
         };
       }),
       label: { show: true, position: 'right', color: COLORS.text, fontSize: 12, fontWeight: 600 },

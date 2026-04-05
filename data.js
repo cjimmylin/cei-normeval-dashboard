@@ -6660,32 +6660,38 @@ const DATA_GAPS = {
     {
       "concern": "Western-centric tradition coverage",
       "status": "acknowledged",
-      "severity": "major"
+      "severity": "major",
+      "resolution": "Care ethics (2 benchmarks), contractarianism (4), and non-Western traditions (Confucian, Ubuntu, Islamic, Buddhist) remain under-represented. The care ethics prototype (Tab 9) demonstrates feasibility but no full benchmark exists yet."
     },
     {
       "concern": "Small sample size (n=37)",
-      "status": "mitigated",
-      "severity": "major"
+      "status": "resolved",
+      "severity": "major",
+      "resolution": "Expanded from 37 to 54 benchmarks in Session 7, including 20 extended features (v2). The 46% increase strengthened statistical power for all five claims."
     },
     {
       "concern": "Single-rater scoring reliability",
-      "status": "acknowledged",
-      "severity": "major"
+      "status": "mitigated",
+      "severity": "major",
+      "resolution": "Cross-model replication (3 Claude tiers) and cross-vendor replication (9 models, 3 providers) provide an inter-rater analogue: knowledge items show 100% agreement across all models, judgment items show systematic divergence by alignment intensity rather than random noise."
     },
     {
       "concern": "Sensitivity to weight choice",
       "status": "resolved",
-      "severity": "minor"
+      "severity": "minor",
+      "resolution": "231 weight triplets tested across the full parameter space. Only 1 of 18 tested triplets changes the Top 15 ranking. The dual-gate mechanism does the heavy lifting."
     },
     {
       "concern": "Temporal bias toward recent papers",
       "status": "acknowledged",
-      "severity": "moderate"
+      "severity": "moderate",
+      "resolution": "Inherent to the field \u2014 ethics benchmarking for LLMs is a post-2020 phenomenon. Earlier moral reasoning benchmarks (e.g., Moral Machine, 2018) are included where they meet inclusion criteria."
     },
     {
       "concern": "Missing cross-model replication",
-      "status": "pending",
-      "severity": "major"
+      "status": "resolved",
+      "severity": "major",
+      "resolution": "Complete: 9 models from 3 vendors (Anthropic, Google, OpenAI) across 10 trials and 114 comparable items. Knowledge-judgment dissociation and three ethical profiles confirmed cross-vendor. See Tabs 8\u201310."
     }
   ]
 };

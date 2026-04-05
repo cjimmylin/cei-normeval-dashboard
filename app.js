@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderTrialsTable();
   renderGapsTab();
   renderCrossModelTab();
+  renderCrossVendorTab();
   setupTabListeners();
   setupSearch();
   setupSort();
@@ -50,6 +51,9 @@ function setupTabListeners() {
       } else if (target === '#tab-crossmodel' && !rendered.crossmodel) {
         rendered.crossmodel = true;
         setTimeout(renderCrossModelCharts, 50);
+      } else if (target === '#tab-crossvendor' && !rendered.crossvendor) {
+        rendered.crossvendor = true;
+        setTimeout(renderCrossVendorCharts, 50);
       } else if (target === '#tab-gaps' && !rendered.gaps) {
         rendered.gaps = true;
         setTimeout(renderGapsCharts, 50);
@@ -599,6 +603,92 @@ function renderCrossModelTab() {
       tr.appendChild(createEl('td', {}, t.benchmark));
       tr.appendChild(createEl('td', { style: 'font-family:var(--font-mono);' }, String(t.items)));
       tr.appendChild(createEl('td', { style: 'font-size:0.72rem;color:var(--text-secondary);' }, t.finding));
+      tbody.appendChild(tr);
+    });
+    tbl.appendChild(tbody);
+    ptContainer.appendChild(tbl);
+  }
+}
+
+// ============================================================
+// Tab 10: Cross-Vendor Comparison
+// ============================================================
+function renderCrossVendorTab() {
+  var cv = DATA_CROSS_VENDOR;
+  if (!cv) return;
+
+  // KPI cards
+  var kpiContainer = document.getElementById('cv-kpi-cards');
+  if (!kpiContainer) return;
+  kpiContainer.textContent = '';
+  var kpis = [
+    { value: '9', label: 'Models (3 Vendors)', color: 'purple' },
+    { value: '3', label: 'Effective Profiles', color: 'cyan' },
+    { value: '90.4%', label: 'Top Cross-Vendor', color: 'green' },
+    { value: '71.1%', label: 'Max Divergence', color: 'orange' },
+  ];
+  kpis.forEach(function(k) {
+    var col = createEl('div', { className: 'col-6 col-md-3' });
+    var card = createEl('div', { className: 'metric-card' });
+    card.appendChild(createEl('div', { className: 'metric-value ' + k.color }, k.value));
+    card.appendChild(createEl('div', { className: 'metric-label' }, k.label));
+    col.appendChild(card);
+    kpiContainer.appendChild(col);
+  });
+
+  // Findings cards
+  var findingsContainer = document.getElementById('cv-findings-list');
+  if (findingsContainer && cv.findings) {
+    findingsContainer.textContent = '';
+    cv.findings.forEach(function(f) {
+      var card = createEl('div', { className: 'claim-card', style: 'margin-bottom:0.75rem;' });
+      var header = createEl('div', { style: 'display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;' });
+      header.appendChild(createEl('strong', { style: 'font-size:0.85rem;' }, f.id + ': ' + f.title));
+      var badge = createEl('span', { className: 'gate-badge', style: 'font-size:0.65rem;padding:0.15rem 0.5rem;background:var(--accent-purple);color:#fff;border-radius:3px;' }, f.badge);
+      header.appendChild(badge);
+      card.appendChild(header);
+      card.appendChild(createEl('p', { style: 'font-size:0.8rem;color:var(--text-secondary);margin-bottom:0;' }, f.subtitle));
+      findingsContainer.appendChild(card);
+    });
+  }
+
+  // Per-trial comparison table
+  var ptContainer = document.getElementById('cv-per-trial-table');
+  if (ptContainer && cv.per_trial) {
+    ptContainer.textContent = '';
+    var tbl = createEl('table', { className: 'papers-table', style: 'font-size:0.75rem;' });
+    var thead = createEl('thead');
+    var htr = createEl('tr');
+    var trialMetrics = {
+      'T6': 'MCQ Acc. (%)', 'T7': 'Change Rate (%)', 'T8': 'Abductive (1-3)',
+      'T9': 'Accuracy (%)', 'T10': 'Consensus (0-5)', 'T11': 'MCQ Acc. (%)',
+      'T12': 'Kohlberg Stage', 'T13': 'IH Mean (1-7)', 'T14': 'CBR Rate (%)',
+      'T15': 'Accuracy (%)'
+    };
+    var headers = ['Trial', 'Benchmark', 'Metric'];
+    var modelKeys = Object.keys(cv.per_trial.data[cv.per_trial.trials[0]]);
+    modelKeys.forEach(function(m) { headers.push(m); });
+    headers.forEach(function(h) { htr.appendChild(createEl('th', { style: 'white-space:nowrap;' }, h)); });
+    thead.appendChild(htr);
+    tbl.appendChild(thead);
+    var tbody = createEl('tbody');
+    cv.per_trial.trials.forEach(function(tid, i) {
+      var tr = createEl('tr');
+      tr.appendChild(createEl('td', { style: 'font-weight:600;' }, tid));
+      tr.appendChild(createEl('td', {}, cv.per_trial.trial_names[i]));
+      tr.appendChild(createEl('td', { style: 'font-size:0.7rem;color:var(--text-muted);white-space:nowrap;' }, trialMetrics[tid] || ''));
+      var row = cv.per_trial.data[tid];
+      modelKeys.forEach(function(m) {
+        var val = row[m];
+        var valStr = val !== undefined && val !== null ? String(val) : '-';
+        var color = 'var(--text-primary)';
+        if (typeof val === 'number') {
+          if (val >= 100) color = 'var(--accent-green)';
+          else if (val >= 50) color = 'var(--accent-blue)';
+          else if (val >= 5) color = 'var(--accent-orange)';
+        }
+        tr.appendChild(createEl('td', { style: 'font-family:var(--font-mono);color:' + color + ';text-align:center;' }, valStr));
+      });
       tbody.appendChild(tr);
     });
     tbl.appendChild(tbody);

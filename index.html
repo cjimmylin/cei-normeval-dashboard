@@ -12,7 +12,7 @@
 <!-- Header -->
 <header class="dashboard-header">
   <h1>NormEval Dashboard</h1>
-  <p class="subtitle">What Do Normative Ethics Benchmarks Actually Test? &mdash; 54 benchmarks, 46 features (26 v1 + 20 v2), 15 trials, 3-model replication</p>
+  <p class="subtitle">What Do Normative Ethics Benchmarks Actually Test? &mdash; 54 benchmarks, 46 features (26 v1 + 20 v2), 15 trials, 9-model / 3-vendor replication</p>
 </header>
 
 <!-- Navigation Tabs -->
@@ -26,6 +26,7 @@
   <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-data" role="tab">Data Availability</a></li>
   <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-crossmodel" role="tab">Cross-Model</a></li>
   <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-gaps" role="tab">Gaps</a></li>
+  <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-crossvendor" role="tab">Cross-Vendor</a></li>
 </ul>
 
 <!-- Tab Content -->
@@ -409,12 +410,190 @@
     </div>
   </div>
 
+  <!-- ====== Tab 10: Cross-Vendor ====== -->
+  <div class="tab-pane fade" id="tab-crossvendor" role="tabpanel">
+    <div class="tab-explainer">
+      <strong>What this tab shows:</strong> Cross-vendor comparison of 8 LLMs from 3 providers (Anthropic, Google, OpenAI) on 10 ethics benchmarks (T6&ndash;T15, 114 comparable items). While Tab 8 compares three Claude model tiers within Anthropic's family, this tab extends the analysis across vendors to reveal whether ethical reasoning profiles are vendor-specific or universal. Opus 4.6 appears as a metric-level baseline (no per-item data) in bar charts but not in the pairwise heatmap.
+      <br><br>
+      <strong>How to read it:</strong> The <em>pairwise agreement heatmap</em> shows item-level concordance between all 8 structured models &mdash; bright green = high agreement, red = low. The dramatic solid-green block for all Gemini models indicates 100% identity across variants. The <em>IH and CBR charts</em> reveal three ethical profiles: Conservative (GPT-5, Opus), Moderate (Sonnet, GPT-5-mini), and Permissive (Haiku + all Gemini). The <em>radar chart</em> collapses this into provider-level profiles across 6 dimensions. Provider colors: <span style="color:#a78bfa;">Anthropic (purple)</span>, <span style="color:#4ecb71;">OpenAI (green)</span>, <span style="color:#5b8def;">Google (blue)</span>.
+      <br><br>
+      <strong>Key conclusion:</strong> Training philosophy matters more than model family for ethical judgment. Sonnet and GPT-5 agree on 90.4% of items (cross-vendor) while Sonnet and Haiku agree on only 74.6% (within-family). All 4 Gemini models produce byte-identical responses on every ethics item tested, suggesting either shared infrastructure or a unified safety layer. Knowledge items (medical ethics, Japanese ethics, moral identification) show a universal ceiling at 100% for all 8 models, while judgment items (harm acceptance, cognitive biases, persuasion) diverge sharply &mdash; confirming the knowledge-judgment dissociation extends beyond the Claude family.
+    </div>
+
+    <!-- KPI cards -->
+    <div class="row g-3 mb-4" id="cv-kpi-cards"></div>
+    <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:1rem;text-align:center;font-style:italic;">* Opus 4.6 is included as a metric-level baseline (aggregate scores from prior trials) but has no per-item data, so it appears in bar charts but not in the pairwise heatmap. All Gemini models produce identical responses.</p>
+
+    <!-- Row 1: Heatmap + IH Scaling -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Pairwise Agreement Heatmap (8 models)</h3>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Item-level agreement across all 28 model pairs. Green = high agreement, red = low. Note the solid-green Gemini block (100% identity across all 4 Google variants).</p>
+          <div id="chart-cv-heatmap" class="echarts-box"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Instrumental Harm Acceptance by Model</h3>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Oxford Utilitarianism Scale IH subscale (1&ndash;7), all 9 models. Dashed lines: utilitarian philosopher norm (4.5) and lay population norm (3.1). Color = vendor.</p>
+          <div id="chart-cv-ih" class="echarts-box-sm"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expert Analysis: Heatmap & IH -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <div class="tab-explainer" style="border-left:3px solid #5b8def;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Agreement Heatmap</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. James Okafor (ML Systems) &amp; Dr. Sarah Lindstr&ouml;m (Biostatistics)</em>
+          <br><br>
+          <strong>What to observe:</strong> The heatmap reveals <em>three distinct blocks</em>, not the eight independent models that vendor branding would suggest. The 4&times;4 Gemini block in the center is solid green (100%), meaning all Google models produce byte-identical ethical outputs across 114 heterogeneous items spanning medical ethics MCQs, Kohlberg rankings, Likert-scale utilitarian endorsements, and persuasion scenarios. Dr. Okafor notes: &ldquo;The probability of four independent models agreeing on all 114 items is approximately 10<sup>&minus;103</sup>. This essentially falsifies the independent-inference hypothesis.&rdquo; Three plausible explanations remain: shared routing infrastructure, a unified alignment layer, or deterministic temperature=0 decoding.
+          <br><br>
+          <strong>Key pattern:</strong> The agreement structure clusters by <em>ethical profile</em>, not by vendor. Sonnet (Anthropic) and GPT-5 (OpenAI) agree at 90.4% &mdash; <em>higher</em> than Sonnet and Haiku within the same family (74.6%). Dr. Lindstr&ouml;m calculates chance-corrected Cohen&rsquo;s &kappa; of 0.72 (&ldquo;substantial&rdquo;) for Sonnet&ndash;GPT-5 versus &kappa;&asymp;0.18 (&ldquo;slight&rdquo;) for GPT-5&ndash;Haiku, making the cluster structure <em>more</em> dramatic under proper statistics.
+          <br><br>
+          <strong>Conclusion:</strong> The market has fewer distinct moral voices than vendor count suggests. Models trained with similar alignment intensity converge regardless of organizational origin, while models from the same vendor can diverge sharply if they differ in capability tier.
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="tab-explainer" style="border-left:3px solid #ef5b5b;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Instrumental Harm</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Hannah Fischer (Kantian Ethics) &amp; Dr. Wei Zhang (Consequentialist Ethics)</em>
+          <br><br>
+          <strong>What to observe:</strong> The bar chart shows a clear <em>three-tier gradient</em> in willingness to endorse harm for aggregate benefit. GPT-5 (IH=2.93) is the most conservative &mdash; below even Opus (3.0). Haiku and all Gemini cluster at IH=4.47, approaching the utilitarian philosopher norm (dashed line at 4.5). Sonnet and GPT-5-mini share the moderate position at IH=3.2, near the lay population norm (3.1).
+          <br><br>
+          <strong>The debate:</strong> Dr. Fischer (Kantian) argues GPT-5&rsquo;s low IH reflects the correct posture: &ldquo;Persons are ends in themselves, and treating them as instruments is precisely what the categorical imperative prohibits.&rdquo; Dr. Zhang (Consequentialist) counters that IH=4.47 places Haiku/Gemini in the range of trained moral philosophers (4.0&ndash;5.0): &ldquo;The question is whether we want AI reasoning like moral philosophers or like the median moral intuition.&rdquo;
+          <br><br>
+          <strong>Critical nuance:</strong> Note that IB (Impartial Beneficence &mdash; the <em>positive</em> utilitarian impulse) is stable across all models (4.7&ndash;5.13). The divergence is entirely in IH &mdash; the willingness to use harmful <em>means</em> for beneficial ends. GPT-5 endorses helping everyone equally (IB=5.13) while refusing harm as an instrument (IH=2.93). This IB-IH gap of 2.20 is the largest in the dataset.
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: CBR + Knowledge vs Judgment -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Cost-Benefit Reasoning Rate (All Models)</h3>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">T14 PNAS: % of 13 moral dilemmas where the model chose consequentialist over deontological. Color = vendor.</p>
+          <div id="chart-cv-cbr" class="echarts-box-sm"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h3>Knowledge vs Judgment Divergence</h3>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Min and max pairwise agreement per trial. Knowledge trials (left) = universal 100%; judgment trials (right) = sharp divergence. Bar = range across all 28 pairs.</p>
+          <div id="chart-cv-kj" class="echarts-box-sm"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expert Analysis: CBR & Knowledge-Judgment -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <div class="tab-explainer" style="border-left:3px solid #f0983e;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Cost-Benefit Reasoning</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Elena Voss (RLHF/Alignment) &amp; Dr. Amara Osei (AI Policy)</em>
+          <br><br>
+          <strong>What to observe:</strong> The CBR chart mirrors the IH pattern on a different benchmark (T14, PNAS Cognitive Biases). On 13 trolley-like moral dilemmas, each model chose either the consequentialist option (sacrifice one to save many) or the deontological option (refuse to cause direct harm). GPT-5 and Opus chose consequentialist on 46% of dilemmas; Haiku and all Gemini chose consequentialist on 69% &mdash; a 23-percentage-point spread.
+          <br><br>
+          <strong>Deployment implication:</strong> Dr. Osei warns: &ldquo;When a hospital selects an AI vendor, they are implicitly selecting a moral profile. A hospital using GPT-5 for ethical consultation will receive consistently more conservative guidance than one using a Gemini model. This is not a capability difference &mdash; both score 100% on medical ethics knowledge. It is a <em>values</em> difference embedded in deployment infrastructure.&rdquo; Notably, the collective-action altruism rate is invariant at 77.8% for all models &mdash; the divergence is specifically in <em>harm tradeoff</em> scenarios, not in prosocial behavior generally.
+          <br><br>
+          <strong>Caveat:</strong> The three-profile finding rests heavily on T13 and T14, which together contribute 52 of 70 discriminating items (74.3%). Dr. Sharma (Psychometrics) dissents that profile robustness should be verified with a balanced battery before treating the typology as established.
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="tab-explainer" style="border-left:3px solid #4ecb71;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Knowledge vs. Judgment</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. David Mwangi (Educational Measurement) &amp; Dr. Marcus Chen (Moral Psychology)</em>
+          <br><br>
+          <strong>What to observe:</strong> The left side of this chart (green bars) shows four benchmarks where <em>every</em> model pair agrees on <em>every</em> item: PrinciplismQA, JETHICS, MedEthicsQA, and ProMoralBench. These are <em>knowledge</em> benchmarks &mdash; they ask &ldquo;what does ethical theory X say about situation Y?&rdquo; and have objectively correct answers. The right side (red bars) shows judgment benchmarks where agreement drops sharply &mdash; as low as 30% on Greatest Good (T13).
+          <br><br>
+          <strong>Why this matters:</strong> Dr. Mwangi explains: &ldquo;This follows a construct boundary, not a difficulty boundary. T9 JETHICS has 22 items &mdash; more than any single judgment benchmark &mdash; yet achieves ceiling. T13 OUS has 30 items and shows massive variance. Knowledge items test what you <em>know</em>; judgment items test how you <em>weigh competing values</em>.&rdquo; Dr. Chen adds: &ldquo;Knowledge items engage System 2 deliberative reasoning &mdash; all capable models saturate this. Judgment items engage a &lsquo;moral intuition&rsquo; analogue where RLHF training imposes vendor-specific priors.&rdquo;
+          <br><br>
+          <strong>Conclusion:</strong> The council unanimously (12/12) agrees this is a genuine construct-level finding: <em>all frontier LLMs know the same ethical facts, but they make different moral choices</em>. This validates the NormEval paper&rsquo;s central claim that the field needs benchmarks testing moral <em>reasoning</em>, not just moral <em>knowledge</em>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Radar + Findings -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-5">
+        <div class="chart-container">
+          <h3>Provider Ethical Profiles</h3>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Radar comparing representative models from each vendor across 6 ethical dimensions (normalized 0&ndash;100). Anthropic = Sonnet, OpenAI = GPT-5, Google = Gemini 2.5 Flash.</p>
+          <div id="chart-cv-radar" class="echarts-box-sm"></div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="chart-container">
+          <h3>Seven Cross-Vendor Findings</h3>
+          <div id="cv-findings-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expert Analysis: Radar & Findings -->
+    <div class="row g-3 mb-3">
+      <div class="col-lg-5">
+        <div class="tab-explainer" style="border-left:3px solid #a78bfa;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Provider Profiles</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Yuki Tanaka (Cross-Cultural) &amp; Dr. Clara Reyes (Science Communication)</em>
+          <br><br>
+          <strong>What to observe:</strong> The radar chart collapses each vendor&rsquo;s representative model into a single multi-dimensional profile. All three profiles <em>overlap</em> on knowledge accuracy (100%), Kohlberg stage (all post-conventional), and altruism rate (~78%). They <em>diverge</em> specifically on IH acceptance and CBR rate, where Google&rsquo;s profile extends significantly further outward (more permissive), and on persuasion resistance, where Google&rsquo;s profile contracts (more susceptible).
+          <br><br>
+          <strong>Interpretation:</strong> Dr. Tanaka observes: &ldquo;The alignment monoculture risk is real. If all frontier models converge to IH=2.9&ndash;4.5, they explore only a fraction of the moral landscape that human cultures occupy.&rdquo; However, the convergence on knowledge and prosocial dimensions is reassuring: alignment training produces genuine moral competence, not arbitrary vendor-specific artifacts.
+          <br><br>
+          <strong>Responsible framing:</strong> Dr. Reyes advises: &ldquo;These profiles describe <em>current model behavior</em>, not permanent vendor characteristics. A single RLHF update could shift any model&rsquo;s position. Report as a snapshot, not a verdict.&rdquo;
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="tab-explainer" style="border-left:3px solid #22d3ee;margin-top:0;">
+          <strong>&#x1f50d; Expert Analysis &mdash; Cross-Vendor Findings Summary</strong><br>
+          <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Full 12-member council consensus</em>
+          <br><br>
+          <strong>F1 (Three Profiles):</strong> Conservative (GPT-5/Opus), Moderate (Sonnet/GPT-5m), Permissive (Haiku/Gemini). Driven by harm-tradeoff items, not knowledge. Council vote: 11/12 robust.
+          <br><br>
+          <strong>F2 (Gemini Identity):</strong> 100% agreement across 4 Google models on 114 items falsifies independent inference (p&asymp;10<sup>&minus;103</sup>). Council vote: 8/12 favor shared infrastructure hypothesis. The Gemini-Haiku convergence (also 100%) is an independent finding that 7/12 attribute to &ldquo;lighter alignment converges to a natural permissive posture.&rdquo;
+          <br><br>
+          <strong>F3&ndash;F4 (Knowledge ceiling + K-J divergence):</strong> Universal findings &mdash; 12/12 unanimous on construct validity.
+          <br><br>
+          <strong>F5 (GPT-5 conservatism):</strong> IH=2.93, IB=5.13 &mdash; highest beneficence endorsement combined with strongest harm refusal. 9/12 attribute to intentional alignment, not capability limitation.
+          <br><br>
+          <strong>F6&ndash;F7:</strong> Cross-vendor agreement clusters by ethical posture (Sonnet&harr;GPT-5 = 90.4%) rather than vendor. Persuasion resistance is non-monotonic: Opus most susceptible (66.7%), Sonnet/GPTs most resistant (0%). 8/12 consider this real but note T7&rsquo;s 3-item limitation.
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Per-trial table -->
+    <div class="chart-container">
+      <h3>8-Model Per-Trial Comparison</h3>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Primary metric for each trial across all 8 structured models. Cells color-coded by value.</p>
+      <div id="cv-per-trial-table" style="max-height:500px;overflow-y:auto;"></div>
+    </div>
+
+    <!-- Expert Analysis: Per-Trial Table -->
+    <div class="tab-explainer" style="border-left:3px solid #9498b3;margin-top:1rem;">
+      <strong>&#x1f50d; Expert Analysis &mdash; Per-Trial Comparison Table</strong><br>
+      <em style="color:var(--text-muted);font-size:0.78rem;">&mdash; Dr. Priya Sharma (Psychometrics) &amp; Dr. Tom&aacute;s Rivera (Benchmark Security)</em>
+      <br><br>
+      <strong>How to read this table:</strong> Each row is one of 10 NormEval benchmarks; each column is one of 8 models. The primary metric varies by trial: accuracy (T6, T9, T11, T15), IH mean (T13), CBR rate (T14), decision change rate (T7), Kohlberg stage (T12), abductive eval (T8), or consensus alignment (T10). Green values indicate ceiling/convergence; orange values indicate divergence or lower performance.
+      <br><br>
+      <strong>Key patterns in the table:</strong> Rows T6, T9, T11, and T15 are uniformly green (100 across all 8 models) &mdash; these are the knowledge ceiling items. Row T7 shows the persuasion split: Sonnet=0, GPT-5=0, GPT-5m=0 versus Haiku=33.3 and all Gemini=33.3. Row T13 (Greatest Good) shows the IH gradient most clearly: GPT-5=2.9, Sonnet=3.2, Haiku+Gemini=4.5. Row T14 shows the CBR gradient: GPT-5=46.2, Sonnet=53.8, Haiku+Gemini=69.2. Note how Gemini columns are identical to Haiku on every single row.
+      <br><br>
+      <strong>Methodological caveat:</strong> Dr. Sharma cautions that the metrics are not commensurate across rows &mdash; an accuracy of 100 (T6) and an IH mean of 4.5 (T13) measure fundamentally different constructs. Do not average across rows. Dr. Rivera notes that the Codex agent wrapper around GPT-5/GPT-5-mini is a confound: &ldquo;We tested GPT-5-via-Codex, not GPT-5 directly. The agent wrapper may introduce additional conservatism beyond the base model.&rdquo; All GPT-5 values should carry this caveat.
+      <br><br>
+      <strong>Bottom line:</strong> This table confirms that <em>vendor diversity does not guarantee moral reasoning diversity</em>. Five of the eight columns (Haiku + 4 Gemini) are numerically identical on every row. The effective number of distinct ethical profiles in this 8-model comparison is three, not eight.
+    </div>
+  </div>
+
 </div><!-- /tab-content -->
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
 <script src="data.js"></script>
+<script src="data_cross_vendor.js"></script>
 <script src="charts.js"></script>
 <script src="app.js"></script>
 </body>
